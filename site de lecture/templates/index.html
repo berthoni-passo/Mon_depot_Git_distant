@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecteur de Documents Passo</title>
+
+    <!-- Lier le fichier CSS externe -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script>
+        function demanderNomEtSaluer() {
+            var nomUtilisateur = prompt('Entrez votre nom :');
+
+            if (nomUtilisateur !== null && nomUtilisateur !== '') {
+                // Envoyez le nom à votre serveur Flask
+                fetch('/saluer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ nomUtilisateur: nomUtilisateur }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Lecteur de Documents Passo</h1>
+    <form action="/lire" method="post" enctype="multipart/form-data">
+        <!-- Bouton pour demander le nom et saluer -->
+        <button type="button" onclick="demanderNomEtSaluer()">Entrez votre Nom</button>
+
+        <br>
+
+        <label for="file">Choisir un fichier :</label>
+        <input type="file" name="file" accept=".pdf, .docx" required>
+        <br>
+        <button type="submit">Lire le document</button>
+    </form>
+</body>
+</html>
